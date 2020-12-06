@@ -1728,4 +1728,10 @@ amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚
 0.7.32: add: add index_cni interface
 
 0.7.33: add: add more index_cni interface
+
+0.7.34: add: add stock_dzjy_sctj interface
+
+0.7.35: add: add stock_dzjy_mrmx interface
+
+0.7.36: add: add stock_dzjy_mrtj interface
 ```

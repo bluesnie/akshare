@@ -1152,9 +1152,12 @@ amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚
 0.7.31: fix: fix index_sw interface
 0.7.32: add: add index_cni interface
 0.7.33: add: add more index_cni interface
+0.7.34: add: add stock_dzjy_sctj interface
+0.7.35: add: add stock_dzjy_mrmx interface
+0.7.36: add: add stock_dzjy_mrtj interface
 """
 
-__version__ = "0.7.33"
+__version__ = "0.7.36"
 __author__ = "Albert King"
 
 import sys
@@ -1164,6 +1167,11 @@ if sys.version_info < (3, 7):
     sys.exit(1)
 
 del sys
+
+"""
+大宗交易
+"""
+from akshare.stock.stock_dzjy import stock_dzjy_sctj, stock_dzjy_mrmx, stock_dzjy_mrtj
 
 """
 国证指数
