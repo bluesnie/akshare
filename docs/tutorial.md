@@ -659,6 +659,12 @@
  "stock_dzjy_sctj"  # 大宗交易-市场统计
  "stock_dzjy_mrmx"  # 大宗交易-每日明细
  "stock_dzjy_mrtj"  # 大宗交易-每日统计
+ "stock_dzjy_hygtj"  # 大宗交易-活跃 A 股统计
+ "stock_dzjy_yybph"  # 大宗交易-营业部排行
+ "stock_dzjy_hyyybtj"  # 大宗交易-活跃营业部统计
+ "stock_dzjy_yybph"  # 大宗交易-营业部排行
+  # 一致行动人
+  "stock_em_yzxdr"  # 股票数据-一致行动人
 ```
 
 ## 案例演示

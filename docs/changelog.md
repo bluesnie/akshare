@@ -1734,4 +1734,20 @@ amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚
 0.7.35: add: add stock_dzjy_mrmx interface
 
 0.7.36: add: add stock_dzjy_mrtj interface
+
+0.7.37: add: add stock_dzjy_hygtj interface
+
+0.7.38: add: add stock_dzjy_hyyybtj interface
+
+0.7.39: add: add stock_dzjy_yybph interface
+
+0.7.40: fix: fix js_news interface
+
+0.7.41: add: add stock_em_yzxdr interface
+
+0.7.42: fix: fix fund_em_etf_fund_daily interface
+
+0.7.43: fix: fix match_main_contract interface
+
+0.7.44: fix: fix stock_hk_daily interface
 ```
