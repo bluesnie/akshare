@@ -1,7 +1,7 @@
 # -*- coding:utf-8 -*-
 # /usr/bin/env python
 """
-Date: 2020/12/21 15:07
+Date: 2021/1/12 14:07
 Desc: COVID-19
 COVID-19-网易
 COVID-19-丁香园
@@ -16,7 +16,6 @@ import jsonpath
 import pandas as pd
 import requests
 from bs4 import BeautifulSoup
-from tqdm import tqdm
 
 from akshare.event.cons import province_dict, city_dict
 
@@ -223,7 +222,7 @@ def covid_19_dxy(indicator: str = "西藏自治区") -> pd.DataFrame:
     # news-china
     text_data_news = str(soup.find("script", attrs={"id": "getTimelineService1"}))
     temp_json = text_data_news[
-        text_data_news.find("= [{") + 2 : text_data_news.rfind("}catch")
+        text_data_news.find("= [{") + 2: text_data_news.rfind("}catch")
     ]
     json_data = pd.DataFrame(json.loads(temp_json))
     chinese_news = json_data[
@@ -238,14 +237,6 @@ def covid_19_dxy(indicator: str = "西藏自治区") -> pd.DataFrame:
             "provinceId",
         ]
     ]
-
-    # news-foreign
-    text_data_news = str(soup.find_all("script", attrs={"id": "getTimelineService2"}))
-    temp_json = text_data_news[
-        text_data_news.find("= [{") + 2 : text_data_news.rfind("}catch")
-    ]
-    json_data = pd.DataFrame(json.loads(temp_json))
-    foreign_news = json_data
 
     # data-domestic
     data_text = str(soup.find("script", attrs={"id": "getAreaStat"}))
@@ -329,8 +320,6 @@ def covid_19_dxy(indicator: str = "西藏自治区") -> pd.DataFrame:
         return hospital_df
     elif indicator == "国内新闻":
         return chinese_news
-    elif indicator == "国外新闻":
-        return foreign_news
     else:
         try:
             data_text = str(soup.find("script", attrs={"id": "getAreaStat"}))
@@ -570,87 +559,6 @@ def migration_scale_baidu(
     return temp_df[start_date:end_date]
 
 
-def covid_19_area_search(
-    province: str = "四川省", city: str = "成都市", district: str = "高新区"
-) -> pd.DataFrame:
-    """
-    省份-城市-区-数据查询
-    https://ncov.html5.qq.com/community?channelid=1&from=singlemessage&isappinstalled=0
-    :param province: 根据 epidemic_area_all 输入
-    :type province: str
-    :param city: 根据 epidemic_area_all 输入
-    :type city: str
-    :param district: 根据 epidemic_area_all 输入
-    :type district: str
-    :return: 全国所有省份-城市-区域数据
-    :rtype: pandas.DataFrame
-    """
-    url = "https://ncov.html5.qq.com/api/getCommunity"
-    payload = {
-        "province": province,
-        "city": city,
-        "district": district,
-        "lat": "30.26555",
-        "lng": "120.1536",
-    }
-    r = requests.get(url, params=payload)
-    temp_df = pd.DataFrame(r.json()["community"][province][city][district])
-    return temp_df[
-        [
-            "province",
-            "city",
-            "district",
-            "show_address",
-            "full_address",
-            "cnt_sum_certain",
-        ]
-    ]
-
-
-def covid_19_area_all() -> pd.DataFrame:
-    """
-    可以获取数据的全国所有省份-城市-区域数据
-    https://ncov.html5.qq.com/community?channelid=1&from=singlemessage&isappinstalled=0
-    :return: 数据的全国所有省份-城市-区域数据
-    :rtype: pandas.DataFrame
-    """
-    url = "https://ncov.html5.qq.com/api/getPosition"
-    r = requests.get(url)
-    area = r.json()["position"]
-    province_list = list(area.keys())
-    temp = []
-    for p in province_list:
-        for c in area[p].keys():
-            temp.extend(
-                list(
-                    zip(
-                        [p] * len(list(area[p][c].keys())[1:]),
-                        [c] * len(list(area[p][c].keys())[1:]),
-                        list(area[p][c].keys())[1:],
-                    )
-                )
-            )
-    return pd.DataFrame(temp, columns=["province", "city", "district"])
-
-
-def covid_19_area_detail() -> pd.DataFrame:
-    """
-    细化到每个小区的确诊人数
-    需要遍历每个页面, 如非必要, 请勿运行
-    https://ncov.html5.qq.com/community?channelid=1&from=singlemessage&isappinstalled=0
-    :return: 全国每个小区的确诊人数
-    :rtype: pandas.DataFrame
-    """
-    temp_df = pd.DataFrame()
-    area_df = covid_19_area_all()
-    for item in tqdm(area_df.iterrows(), total=area_df.shape[0]):
-        small_df = covid_19_area_search(
-            province=item[1][0], city=item[1][1], district=item[1][2]
-        )
-        temp_df = temp_df.append(small_df, ignore_index=True)
-    return temp_df
-
-
 def covid_19_trip() -> pd.DataFrame:
     """
     新型肺炎确诊患者-相同行程查询工具
@@ -665,9 +573,8 @@ def covid_19_trip() -> pd.DataFrame:
 
 def covid_19_hist_city(city: str = "武汉市") -> pd.DataFrame:
     """
-    该接口最好用代理速度比较快
+    该接口最好用代理速度比较快, 2019-12-01开始
     https://github.com/canghailan/Wuhan-2019-nCoV
-    2019-12-01开始
     :param city: 具体的城市
     :type city: str
     :return: COVID-19 具体城市的数据
@@ -682,9 +589,8 @@ def covid_19_hist_city(city: str = "武汉市") -> pd.DataFrame:
 
 def covid_19_hist_province(province: str = "湖北省") -> pd.DataFrame:
     """
-    该接口最好用代理速度比较快
+    该接口最好用代理速度比较快, 2019-12-01开始
     https://github.com/canghailan/Wuhan-2019-nCoV
-    2019-12-01开始
     :param province: 具体的省份
     :type province: str
     :return: COVID-19 具体城市的数据
@@ -699,9 +605,8 @@ def covid_19_hist_province(province: str = "湖北省") -> pd.DataFrame:
 
 def covid_19_history() -> pd.DataFrame:
     """
-    接口最好用代理速度比较快
+    接口最好用代理速度比较快, 2019-12-01开始
     https://github.com/canghailan/Wuhan-2019-nCoV
-    2019-12-01开始
     :return: 疫情数据
     :rtype: pandas.DataFrame
     """
@@ -714,9 +619,8 @@ def covid_19_history() -> pd.DataFrame:
 
 def covid_19_csse_daily(date: str = "2020-04-06") -> pd.DataFrame:
     """
-    2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE
+    2019 Novel Coronavirus COVID-19 (2019-nCoV) Data Repository by Johns Hopkins CSSE, 采集 GitHub csv 文件需要 raw 地址
     https://github.com/CSSEGISandData/COVID-19
-    采集 GitHub csv 文件需要 raw 地址
     :param date: from 2020-01-22 to today
     :type date: str
     :return: CSSE data
@@ -823,7 +727,6 @@ if __name__ == "__main__":
         "全球疫情实时统计",
         "中国疫情防控医院",
         "国内新闻",
-        "国外新闻",
         "浙江省",
     ]
     for item in indicator_list:
@@ -861,15 +764,7 @@ if __name__ == "__main__":
         area="上海市", indicator="move_in", start_date="20190113", end_date="20200512"
     )
     print(migration_scale_baidu_df)
-    # 小区
-    epidemic_area_search_df = covid_19_area_search(
-        province="四川省", city="成都市", district="高新区"
-    )
-    print(epidemic_area_search_df)
-    epidemic_area_all_df = covid_19_area_all()
-    print(epidemic_area_all_df)
-    epidemic_area_detail_df = covid_19_area_detail()
-    print(epidemic_area_detail_df)
+
     # 行程
     epidemic_trip_df = covid_19_trip()
     print(epidemic_trip_df)

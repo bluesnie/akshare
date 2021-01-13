@@ -1770,4 +1770,52 @@ amac_manager_cancelled_info # 中国证券投资基金业协会-信息公示-诚
 0.7.53: fix: fix stock_em_yzxdr interface
 
 0.7.54: add: add stock_a_code_to_symbol interface
+
+0.7.55: add: add stock_news_em interface
+
+0.7.56: fix: fix stock_news_em interface
+
+0.7.57: fix: fix xlrd support
+
+0.7.58: fix: fix stock_zh_a_tick_tx_js support
+
+0.7.59: fix: fix read_excel support
+
+0.7.60: fix: fix fund_em_open_fund_daily interface
+
+0.7.61: fix: fix calendar.json interface
+
+0.7.62: fix: fix QQ group interface
+
+0.7.63: add: add bond_summary_sse interface
+
+0.7.64: fix: fix macro_cons_gold_volume interface
+
+0.7.65: fix: fix fund_em_value_estimation interface
+
+0.7.66: fix: fix fund_em_value_estimation interface
+
+0.7.67: fix: fix get_dce_daily interface
+
+0.7.68: fix: fix stock_zh_index_spot interface
+
+0.7.69: fix: fix covid_19 interface
+
+0.7.70: fix: fix get_dce_rank_table interface
+
+0.7.71: fix: fix stock_us_daily interface
+
+0.7.72: fix: fix get_ine_daily interface
+
+0.7.73: add: add macro_china_money_supply interface
+
+0.7.74: fix: fix stock_zh_a_minute interface
+
+0.7.75: add: add bond_cash_summary_sse interface
+
+0.7.76: fix: fix get_rank_sum_daily interface
+
+0.7.77: fix: fix get_inventory_data interface
+
+0.7.78: fix: fix futures_inventory_99 interface
 ```
